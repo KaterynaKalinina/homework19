@@ -50,5 +50,3 @@ const highlight = (e) => {
 };
 
 window.addEventListener('mousedown', highlight);
-
-// Я думала, что у меня мозг вытечет через уши, когда я делала задачу с выделением :)))
