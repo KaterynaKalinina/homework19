@@ -11,42 +11,42 @@ window.addEventListener('mousemove', (e) => {
 });
 
 
-const highlight = (e) => {
-    const highlightedArea = document.querySelector('#highlightedArea');
-    highlightedArea.className = 'highlight';
+function highlight (elem, e) {
+    elem.className = 'highlight';
 
     let clickX = e.clientX;
     let clickY = e.clientY;
+    let handle = handleMousemove.bind(this, clickX, clickY, elem);
 
-    const mousemoveProcess = (e) => {
-        let moveX = e.clientX;
-        let moveY = e.clientY;
-
-        if (moveX > clickX) {
-            highlightedArea.style.left = `${clickX}px`;
-            highlightedArea.style.right = `${window.innerWidth - moveX}px`;
-        } else {
-            highlightedArea.style.left = `${moveX}px`;
-            highlightedArea.style.right = `${window.innerWidth - clickX}px`;
-        };
-
-
-        if (moveY > clickY) {
-            highlightedArea.style.top = `${clickY}px`;
-            highlightedArea.style.bottom = `${window.innerHeight - moveY}px`;
-        } else {
-            highlightedArea.style.top = `${moveY}px`;
-            highlightedArea.style.bottom = `${window.innerHeight - clickY}px`;
-        };
-
-    };
-
-    window.addEventListener('mousemove', mousemoveProcess);
+    window.addEventListener('mousemove', handle);
 
     window.addEventListener('mouseup', () => {
-        highlightedArea.removeAttribute('style');
-        window.removeEventListener('mousemove', mousemoveProcess);
+        elem.removeAttribute('style');
+        window.removeEventListener('mousemove', handle);
     });
 };
 
-window.addEventListener('mousedown', highlight);
+function handleMousemove (x, y, el, e) {
+    let moveX = e.clientX;
+    let moveY = e.clientY;
+
+    if (moveX > x) {
+        el.style.left = `${x}px`;
+        el.style.right = `${window.innerWidth - moveX}px`;
+    } else {
+        el.style.left = `${moveX}px`;
+        el.style.right = `${window.innerWidth - x}px`;
+    };
+
+
+    if (moveY > y) {
+        el.style.top = `${y}px`;
+        el.style.bottom = `${window.innerHeight - moveY}px`;
+    } else {
+        el.style.top = `${moveY}px`;
+        el.style.bottom = `${window.innerHeight - y}px`;
+    };
+
+};
+
+window.addEventListener('mousedown', highlight.bind(this, document.querySelector('#highlightedArea')));
